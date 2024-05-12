@@ -1,14 +1,21 @@
 require 'factory_bot_rails'
 
-teams = FactoryBot.create_list(:team, 2, name: Faker::Sports::Football.team)
+Team.delete_all
+Player.delete_all
+Match.delete_all
+PerformanceIndicator.delete_all
+PlayerMatchPerformance.delete_all
+MatchParticipation.delete_all
+
+teams = FactoryBot.create_list(:team, 2)
 
 teams.each do |team|
   FactoryBot.create_list(:player, 3, team: team)
 end
 
-matches = FactoryBot.create_list(:match, 3, date: Faker::Date.in_date_period, location: Faker::Address.city)
+matches = FactoryBot.create_list(:match, 3)
 
-indicators = FactoryBot.create_list(:performance_indicator, 2, description: Faker::Lorem.word)
+indicators = FactoryBot.create_list(:performance_indicator, 2)
 
 teams.each do |team|
   matches.each do |match|
