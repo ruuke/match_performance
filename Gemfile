@@ -23,10 +23,10 @@ group :development, :test do
   gem 'pry', '~> 0.14.0'
   gem 'pry-byebug', '~> 3.10.0'
   gem 'pry-rails'
+  gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rake'
   gem 'rubocop-rspec', require: false
-  gem 'rspec-rails'
 end
