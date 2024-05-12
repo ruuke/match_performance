@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: myapp_development
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://user:password@db/myapp_development
+  pghero:
+    image: ankane/pghero
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgres://user:password@db/myapp_development
