@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   namespace :v1 do
     resources :performances, only: [:create] do
-      get 'check_indicator', on: :collection
+
+      collection do
+        get 'check_indicator'
+        get 'top_performers'
+      end
     end
   end
 end

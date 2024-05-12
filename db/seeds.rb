@@ -1,7 +1,27 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+require 'factory_bot_rails'
+
+teams = FactoryBot.create_list(:team, 2, name: Faker::Sports::Football.team)
+
+teams.each do |team|
+  FactoryBot.create_list(:player, 3, team: team)
+end
+
+matches = FactoryBot.create_list(:match, 3, date: Faker::Date.in_date_period, location: Faker::Address.city)
+
+indicators = FactoryBot.create_list(:performance_indicator, 2, description: Faker::Lorem.word)
+
+teams.each do |team|
+  matches.each do |match|
+    FactoryBot.create(:match_participation, team: team, match: match)
+  end
+end
+
+Player.all.each do |player|
+  player.team.matches.each do |match|
+    FactoryBot.create(:player_match_performance,
+      player: player,
+      match: match,
+      performance_indicator: indicators.sample,
+      achieved: [true, false].sample)
+  end
+end

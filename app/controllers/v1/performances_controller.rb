@@ -13,17 +13,22 @@ module V1
     end
 
     def check_indicator
-      service = PerformanceCheckService.new(
-        player_id: params[:player_id],
-        indicator_id: params[:indicator_id]
-      )
-
-      result = service.call
+      result = PerformanceCheckService.new.call(params.to_unsafe_hash)
 
       if result.success?
         render json: { status: result.value! }, status: :ok
       else
         render json: { error: result.failure }, status: :internal_server_error
+      end
+    end
+
+    def top_performers
+      result = TopPerformersService.new.call(params.to_unsafe_hash)
+
+      if result.success?
+        render json: result.value!.as_json(only: %i[id name performances_count])
+      else
+        render json: { error: result.failure }, status: :unprocessable_entity
       end
     end
   end
