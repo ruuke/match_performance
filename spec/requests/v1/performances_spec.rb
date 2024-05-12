@@ -52,5 +52,49 @@ RSpec.describe "V1::Performances", type: :request do
       end
     end
   end
+
+  describe 'GET /v1/performances/check_indicator' do
+    let(:team) { create(:team) }
+    let(:player) { create(:player, team: team) }
+    let(:match) { create(:match) }
+    let(:performance_indicator) { create(:performance_indicator) }
+    let!(:match_participation) { create(:match_participation, team: team, match: match) }
+
+    context 'when the performance indicator was achieved' do
+      before do
+        create(:player_match_performance,
+               player: player,
+               match: match,
+               performance_indicator: performance_indicator,
+               achieved: true)
+      end
+
+      it 'returns true' do
+        get check_indicator_v1_performances_path, params: { player_id: player.id, indicator_id: performance_indicator.id }
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('true')
+      end
+    end
+
+    context 'when the performance indicator was not achieved' do
+      before do
+        5.times do
+          match = create(:match)
+          create(:match_participation, team: team, match: match)
+          create(:player_match_performance,
+                 player: player,
+                 match: match,
+                 performance_indicator: performance_indicator,
+                 achieved: false)
+        end
+      end
+
+      it 'returns false' do
+        get check_indicator_v1_performances_path, params: { player_id: player.id, indicator_id: performance_indicator.id }
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('false')
+      end
+    end
+  end
 end
 

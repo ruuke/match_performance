@@ -11,5 +11,20 @@ module V1
         render json: { errors: result.failure.to_h }, status: :unprocessable_entity
       end
     end
+
+    def check_indicator
+      service = PerformanceCheckService.new(
+        player_id: params[:player_id],
+        indicator_id: params[:indicator_id]
+      )
+
+      result = service.call
+
+      if result.success?
+        render json: { status: result.value! }, status: :ok
+      else
+        render json: { error: result.failure }, status: :internal_server_error
+      end
+    end
   end
 end
