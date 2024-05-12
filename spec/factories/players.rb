@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :player do
-    name { 'MyString' }
-    team { nil }
+    name { Faker::Sports::Football.player }
+    team
   end
 end

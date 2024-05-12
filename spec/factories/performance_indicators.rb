@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :performance_indicator do
-    description { 'MyString' }
+    description { Faker::Lorem.word }
   end
 end

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :match do
-    date { '2024-05-12' }
-    location { 'MyString' }
+    date { Faker::Date.between(from: 1.year.ago, to: Time.zone.today) }
+    location { Faker::Address.city }
   end
 end

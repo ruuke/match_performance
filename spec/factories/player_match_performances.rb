@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :player_match_performance do
-    player { nil }
-    match { nil }
-    performance_indicator { nil }
-    achieved { false }
+    player
+    match
+    performance_indicator
+    achieved { [true, false].sample }
   end
 end
