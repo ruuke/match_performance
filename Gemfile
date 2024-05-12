@@ -13,6 +13,9 @@ gem 'bootsnap', require: false
 gem 'rack-cors'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
+gem 'dry-monads'
+gem 'dry-schema'
+
 group :development, :test do
   gem 'awesome_print'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
